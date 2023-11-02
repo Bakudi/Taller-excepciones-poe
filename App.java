@@ -6,7 +6,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -114,13 +113,32 @@ public class App extends JFrame implements ActionListener, ItemListener{
         platosEntradasBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                platoInfoTextArea.setText("");
+                String nombrePlato = platosEntradasBox.getSelectedItem().toString();
+                for (Platos plato : menu) {
+                    if (plato.getNombre().equals(nombrePlato)) {
+                        platoInfoTextArea.setText("Nombre: " + plato.getNombre() + "\nDescripción: " + plato.getDescripcion()
+                                + "\nTipo: " + plato.getTipo() + "\nCosto: $" + plato.getCosto()
+                                + "\nTiempo de preparación: " + plato.getTiempoprep() + " minutos");
+                        break;
+                    }
+                }
             }
         });
 
         platosBebidasBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                platoInfoTextArea.setText("");
+                String nombrePlato = platosBebidasBox.getSelectedItem().toString();
+                for (Platos plato : menu) {
+                    if (plato.getNombre().equals(nombrePlato)) {
+                        platoInfoTextArea.setText("Nombre: " + plato.getNombre() + "\nDescripción: " + plato.getDescripcion()
+                                + "\nTipo: " + plato.getTipo() + "\nCosto: $" + plato.getCosto()
+                                + "\nTiempo de preparación: " + plato.getTiempoprep() + " minutos");
+                        break;
+                    }
+                }
 
             }
         });
@@ -128,6 +146,16 @@ public class App extends JFrame implements ActionListener, ItemListener{
         platosFuertesBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                platoInfoTextArea.setText("");
+                String nombrePlato = platosFuertesBox.getSelectedItem().toString();
+                for (Platos plato : menu) {
+                    if (plato.getNombre().equals(nombrePlato)) {
+                        platoInfoTextArea.setText("Nombre: " + plato.getNombre() + "\nDescripción: " + plato.getDescripcion()
+                                + "\nTipo: " + plato.getTipo() + "\nCosto: $" + plato.getCosto()
+                                + "\nTiempo de preparación: " + plato.getTiempoprep() + " minutos");
+                        break;
+                    }
+                }
 
             }
         });
@@ -137,10 +165,9 @@ public class App extends JFrame implements ActionListener, ItemListener{
         setVisible(true);
     }
 
-
     public static void main(String[] args) throws Exception {
-        App app = new App();}
-
+        App app = new App();
+    }
 
     @Override
     public void itemStateChanged(ItemEvent e) {
