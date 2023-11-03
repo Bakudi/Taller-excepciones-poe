@@ -1,3 +1,4 @@
+
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,6 +27,7 @@ public class App extends JFrame implements ActionListener, ItemListener {
     private JTextField cantidadTextField;
     private JTextArea facturaTextArea;
 
+
     public App() { // aparatado para implementar la interfaz GUI
         menu = new ArrayList<>();
         carrito = new ArrayList<>();
@@ -46,6 +48,7 @@ public class App extends JFrame implements ActionListener, ItemListener {
         menu.add(new Platos("Bandeja paisa", "plato de arroz, frijoles, chorizo, huevo, aguacate y arepa",
                 Tipoplato.PLATO_FURTE, 90000, 35));
 
+
         // Recorrer el arreglo menu y separar los objetos por tipo de plato
         for (Platos plato : menu) {
             if (plato.getTipo() == Tipoplato.ENTRADA) {
@@ -56,7 +59,6 @@ public class App extends JFrame implements ActionListener, ItemListener {
                 platos_Fuertes.add(plato);
             }
         }
-
         // interfaz
         setTitle("Restaurante");
         setSize(700, 700);
@@ -233,6 +235,7 @@ public class App extends JFrame implements ActionListener, ItemListener {
             }
         }
         return null;
+
     }
 
     public static void main(String[] args) throws Exception {

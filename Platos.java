@@ -53,5 +53,6 @@ public class Platos {
     public int getCantidad() {
         return 0;
     }
+
     
 }
