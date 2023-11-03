@@ -5,7 +5,11 @@ public class Platos {
     int costo;
     int tiempoprep;
 
-    public Platos(String nombre, String descripcion,Tipoplato tipo,int costo,int tiempoprep){
+
+  
+    public Platos(String nombre, String descripcion, Tipoplato tipo, int costo, int tiempoprep){
+
+  
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.tipo = tipo;
@@ -44,5 +48,11 @@ public class Platos {
     public void setTiempoprep(int tiempoprep) {
         this.tiempoprep = tiempoprep;
     }
+    public void setCantidad(int cantidad) {
+    }
+    public int getCantidad() {
+        return 0;
+    }
+
     
 }
