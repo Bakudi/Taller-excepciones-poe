@@ -1,4 +1,3 @@
-
 public class Platos {
     String nombre;
     String descripcion;
