@@ -11,12 +11,12 @@ import java.util.Scanner;
 
 public class MetodosRest {
 
-    static Platos entrada1 = new Platos("Aros de cebolla", "Aros hechos con cebolla .__.", Tipoplato.entrada, 15000, 10);
-    static Platos entrada2 = new Platos("Tostadas", "Tostadas de platano con ají", Tipoplato.entrada, 20000, 15);
-    static Platos bebida1 = new Platos("Jugo de mango", "bebida de mango ._.", Tipoplato.entrada, 20000, 10);
-    static Platos bebida2 = new Platos("Limonada cerezada", "Limonada con sabor a cereza", Tipoplato.entrada, 25000, 10);
-    static Platos fuerte1 = new Platos("Parrillada", "Picada de varias carnes (pollo, res y cerdo) acompañado de papa y ensalada", Tipoplato.entrada, 60000, 25);
-    static Platos fuerte2 = new Platos("Bandeja paisa", "plato de arroz, frijoles, chorizo, huevo, aguacate y arepa", Tipoplato.entrada, 90000, 35);
+    static Platos entrada1 = new Platos("Aros de cebolla", "Aros hechos con cebolla .__.", Tipoplato.ENTRADA, 15000, 10);
+    static Platos entrada2 = new Platos("Tostadas", "Tostadas de platano con ají", Tipoplato.ENTRADA, 20000, 15);
+    static Platos bebida1 = new Platos("Jugo de mango", "bebida de mango ._.", Tipoplato.BEBIDA, 20000, 10);
+    static Platos bebida2 = new Platos("Limonada cerezada", "Limonada con sabor a cereza", Tipoplato.BEBIDA, 25000, 10);
+    static Platos fuerte1 = new Platos("Parrillada", "Picada de varias carnes (pollo, res y cerdo) acompañado de papa y ensalada", Tipoplato.PLATO_FURTE, 60000, 25);
+    static Platos fuerte2 = new Platos("Bandeja paisa", "plato de arroz, frijoles, chorizo, huevo, aguacate y arepa", Tipoplato.PLATO_FURTE, 90000, 35);
 
     static boolean condi = true;
     public static void ordenarMenu(ArrayList<Platos> lista){
