@@ -1,4 +1,5 @@
 
+
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,6 +20,7 @@ public class App extends JFrame implements ActionListener, ItemListener {
 
     private ArrayList<Platos> menu;
     private ArrayList<Platos> carrito;
+    private double valorcantidadcompra;
 
     private JComboBox<String> platosEntradasBox;
     private JComboBox<String> platosBebidasBox;
@@ -110,7 +112,12 @@ public class App extends JFrame implements ActionListener, ItemListener {
         pagarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                generarFactura();
+                try {
+                    generarFactura();
+                } catch (ExcepcionCosto e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
             }
         });
 
@@ -146,7 +153,34 @@ public class App extends JFrame implements ActionListener, ItemListener {
         if (nombrePlato != null && cantidad > 0) {
             Platos platoSeleccionado = obtenerPlatoDesdeMenu(nombrePlato);
 
-            if (platoSeleccionado != null) {
+        if (platoSeleccionado != null) {
+            if (platoSeleccionado.getTipo() != Tipoplato.BEBIDA) {
+                boolean contieneBebida = false;
+                for (Platos plato : carrito) {
+                    if (plato.getTipo() == Tipoplato.BEBIDA) {
+                        contieneBebida = true;
+                        break;
+                    }
+                }
+                if (!contieneBebida) {
+                    try {
+                        throw new Bebedida("Debe pedir al menos una bebida en su pedido.");
+                    } catch (Bebedida e) {
+                        JOptionPane.showMessageDialog(this, e.getMessage());
+                        return; // No se agrega al carrito si hay una excepción
+                    }
+                }
+            }
+                
+
+                if(cantidad >5){
+                    try {
+                        throw new CantidadExcedida("No puedes comprar más de 5 unidades de un plato.");
+                    } catch (CantidadExcedida e){
+                        JOptionPane.showMessageDialog(this, e.getMessage());
+                    }
+
+                }else{
                 Platos platoEnCarrito = new Platos(platoSeleccionado.getNombre(), platoSeleccionado.getDescripcion(),
                         platoSeleccionado.getTipo(), platoSeleccionado.getCosto(), platoSeleccionado.getTiempoprep());
                 platoEnCarrito.setCantidad(cantidad);
@@ -155,16 +189,20 @@ public class App extends JFrame implements ActionListener, ItemListener {
 
                 // Actualizar el área del carrito
                 actualizarCarrito();
-            }
+            }}
         } else {
             JOptionPane.showMessageDialog(this, "Seleccione un plato y especifique la cantidad.");
         }
     }
 
-    private void generarFactura() {
+    private void generarFactura() throws ExcepcionCosto {
         // Construir la factura con los productos seleccionados
+        
         StringBuilder facturaBuilder = new StringBuilder("Factura:\n");
         double total = 0;
+        if(total >200000){
+            throw new ExcepcionCosto("el valor es demasiado elevado");
+        }else{
 
         for (Platos plato : carrito) {
             double costoPlato = plato.getCosto() * plato.getCantidad();
@@ -172,7 +210,8 @@ public class App extends JFrame implements ActionListener, ItemListener {
                     .append(plato.getCosto()).append("\n");
 
             total += plato.getCosto();
-        }
+        }}
+        
 
         facturaBuilder.append("Total: $").append(total);
 
@@ -251,4 +290,3 @@ public class App extends JFrame implements ActionListener, ItemListener {
     public void actionPerformed(ActionEvent e) {
 
     }
-}
