@@ -1,3 +1,3 @@
 public enum Tipoplato {
-    entrada, bebida, platofuerte
+    ENTRADA, BEBIDA, PLATO_FURTE
 }
