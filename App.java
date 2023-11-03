@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-public class App extends JFrame implements ActionListener, ItemListener{
+public class App extends JFrame implements ActionListener, ItemListener {
 
     private ArrayList<Platos> menu;
     private ArrayList<Platos> carrito;
@@ -27,23 +27,28 @@ public class App extends JFrame implements ActionListener, ItemListener{
     private JTextField cantidadTextField;
     private JTextArea facturaTextArea;
 
-    public App(){ //apratado para implemtar la interfaz GUI
+
+    public App() { // aparatado para implementar la interfaz GUI
         menu = new ArrayList<>();
-        carrito = new ArrayList<>(); 
+        carrito = new ArrayList<>();
 
         // Crear arreglos para cada tipo de plato
         ArrayList<Platos> entradas = new ArrayList<>();
         ArrayList<Platos> bebidas = new ArrayList<>();
         ArrayList<Platos> platos_Fuertes = new ArrayList<>();
-        //añadimos todos los platos a el menu 
-        
+        // añadimos todos los platos a el menu
+
         menu.add(new Platos("Aros de cebolla", "Aros hechos con cebolla .__.", Tipoplato.ENTRADA, 15000, 10));
         menu.add(new Platos("Tostadas", "Tostadas de platano con ají", Tipoplato.ENTRADA, 20000, 15));
         menu.add(new Platos("Jugo de mango", "bebida de mango ._.", Tipoplato.BEBIDA, 20000, 10));
         menu.add(new Platos("Limonada cerezada", "Limonada con sabor a cereza", Tipoplato.BEBIDA, 25000, 10));
-        menu.add(new Platos("Parrillada", "Picada de varias carnes (pollo, res y cerdo) acompañado de papa y ensalada", Tipoplato.PLATO_FURTE, 60000, 25));
-        menu.add(new Platos("Bandeja paisa", "plato de arroz, frijoles, chorizo, huevo, aguacate y arepa", Tipoplato.PLATO_FURTE, 90000, 35));
-        
+        menu.add(new Platos("Parrillada",
+                "Picada de varias carnes (pollo, res y cerdo) acompañado de papa y ensalada", Tipoplato.PLATO_FURTE,
+                60000, 25));
+        menu.add(new Platos("Bandeja paisa", "plato de arroz, frijoles, chorizo, huevo, aguacate y arepa",
+                Tipoplato.PLATO_FURTE, 90000, 35));
+
+
         // Recorrer el arreglo menu y separar los objetos por tipo de plato
         for (Platos plato : menu) {
             if (plato.getTipo() == Tipoplato.ENTRADA) {
@@ -54,8 +59,7 @@ public class App extends JFrame implements ActionListener, ItemListener{
                 platos_Fuertes.add(plato);
             }
         }
-
-        //interfaz
+        // interfaz
         setTitle("Restaurante");
         setSize(700, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -99,70 +103,139 @@ public class App extends JFrame implements ActionListener, ItemListener{
         agregarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                agregarAlCarrito();
             }
         });
 
         pagarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                generarFactura();
             }
         });
 
         platosEntradasBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                platoInfoTextArea.setText("");
-                String nombrePlato = platosEntradasBox.getSelectedItem().toString();
-                for (Platos plato : menu) {
-                    if (plato.getNombre().equals(nombrePlato)) {
-                        platoInfoTextArea.setText("Nombre: " + plato.getNombre() + "\nDescripción: " + plato.getDescripcion()
-                                + "\nTipo: " + plato.getTipo() + "\nCosto: $" + plato.getCosto()
-                                + "\nTiempo de preparación: " + plato.getTiempoprep() + " minutos");
-                        break;
-                    }
-                }
+                mostrarInformacionPlato(platosEntradasBox.getSelectedItem().toString());
             }
         });
 
         platosBebidasBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                platoInfoTextArea.setText("");
-                String nombrePlato = platosBebidasBox.getSelectedItem().toString();
-                for (Platos plato : menu) {
-                    if (plato.getNombre().equals(nombrePlato)) {
-                        platoInfoTextArea.setText("Nombre: " + plato.getNombre() + "\nDescripción: " + plato.getDescripcion()
-                                + "\nTipo: " + plato.getTipo() + "\nCosto: $" + plato.getCosto()
-                                + "\nTiempo de preparación: " + plato.getTiempoprep() + " minutos");
-                        break;
-                    }
-                }
-
+                mostrarInformacionPlato(platosBebidasBox.getSelectedItem().toString());
             }
         });
 
         platosFuertesBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                platoInfoTextArea.setText("");
-                String nombrePlato = platosFuertesBox.getSelectedItem().toString();
-                for (Platos plato : menu) {
-                    if (plato.getNombre().equals(nombrePlato)) {
-                        platoInfoTextArea.setText("Nombre: " + plato.getNombre() + "\nDescripción: " + plato.getDescripcion()
-                                + "\nTipo: " + plato.getTipo() + "\nCosto: $" + plato.getCosto()
-                                + "\nTiempo de preparación: " + plato.getTiempoprep() + " minutos");
-                        break;
-                    }
-                }
-
+                mostrarInformacionPlato(platosFuertesBox.getSelectedItem().toString());
             }
         });
 
-
         add(panel);
         setVisible(true);
+    }
+
+    private void agregarAlCarrito() {
+        String nombrePlato = obtenerPlatoSeleccionado();
+        int cantidad = obtenerCantidad();
+
+        if (nombrePlato != null && cantidad > 0) {
+            Platos platoSeleccionado = obtenerPlatoDesdeMenu(nombrePlato);
+
+            if (platoSeleccionado != null) {
+                Platos platoEnCarrito = new Platos(platoSeleccionado.getNombre(), platoSeleccionado.getDescripcion(),
+                        platoSeleccionado.getTipo(), platoSeleccionado.getCosto(), platoSeleccionado.getTiempoprep());
+                platoEnCarrito.setCantidad(cantidad);
+
+                carrito.add(platoEnCarrito);
+
+                // Actualizar el área del carrito
+                actualizarCarrito();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Seleccione un plato y especifique la cantidad.");
+        }
+    }
+
+    private void generarFactura() {
+        // Construir la factura con los productos seleccionados
+        StringBuilder facturaBuilder = new StringBuilder("Factura:\n");
+        double total = 0;
+
+        for (Platos plato : carrito) {
+            double costoPlato = plato.getCosto() * plato.getCantidad();
+            facturaBuilder.append(plato.getNombre()).append(" x").append(plato.getCantidad()).append(": $")
+                    .append(plato.getCosto()).append("\n");
+
+            total += plato.getCosto();
+        }
+
+        facturaBuilder.append("Total: $").append(total);
+
+        // Mostrar la factura en el JTextArea
+        facturaTextArea.setText(facturaBuilder.toString());
+
+        // Limpiar el carrito
+        carrito.clear();
+
+        // Actualizar el área del carrito
+        actualizarCarrito();
+    }
+
+    private void mostrarInformacionPlato(String nombrePlato) {
+        platoInfoTextArea.setText("");
+        Platos plato = obtenerPlatoDesdeMenu(nombrePlato);
+
+        if (plato != null) {
+            platoInfoTextArea.setText("Nombre: " + plato.getNombre() + "\nDescripción: " + plato.getDescripcion()
+                    + "\nTipo: " + plato.getTipo() + "\nCosto: $" + plato.getCosto() + "\nTiempo de preparación: "
+                    + plato.getTiempoprep() + " minutos");
+        }
+    }
+
+    private void actualizarCarrito() {
+        StringBuilder carritoBuilder = new StringBuilder("Carrito:\n");
+
+        for (Platos plato : carrito) {
+            carritoBuilder.append(plato.getNombre()).append(" x").append(plato.getCantidad()).append("\n");
+        }
+
+        // Mostrar el carrito en el JTextArea
+        platoInfoTextArea.setText(carritoBuilder.toString());
+    }
+
+    private String obtenerPlatoSeleccionado() {
+        if (platosEntradasBox.getSelectedItem() != null) {
+            return platosEntradasBox.getSelectedItem().toString();
+        } else if (platosBebidasBox.getSelectedItem() != null) {
+            return platosBebidasBox.getSelectedItem().toString();
+        } else if (platosFuertesBox.getSelectedItem() != null) {
+            return platosFuertesBox.getSelectedItem().toString();
+        } else {
+            return null;
+        }
+    }
+
+    private int obtenerCantidad() {
+        try {
+            return Integer.parseInt(cantidadTextField.getText());
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
+
+    private Platos obtenerPlatoDesdeMenu(String nombrePlato) {
+        for (Platos plato : menu) {
+            if (plato.getNombre().equals(nombrePlato)) {
+                return plato;
+            }
+        }
+        return null;
+
     }
 
     public static void main(String[] args) throws Exception {
